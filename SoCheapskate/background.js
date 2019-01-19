@@ -22,7 +22,7 @@ chrome.contextMenus.create({
 });
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    if (info.menuItemId == "compare") {
+    if (info.menuItemId == "compare" && info.selectionText !== undefined) {
       let url = "popup.html?selection="+ info.selectionText;
       chrome.tabs.create({url:url, index: tab.index +1});
     }

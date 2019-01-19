@@ -16,13 +16,13 @@
   
   
 chrome.contextMenus.create({
-  id: "some-command",
+  id: "compare",
   title: "Search Using SoCheapskate",
   contexts: ["page","selection","link","editable","image","video","audio"],
 });
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    if (info.menuItemId == "some-command") {
+    if (info.menuItemId == "compare") {
       let url = "popup.html?selection="+ info.selectionText;
       chrome.tabs.create({url:url, index: tab.index +1});
     }

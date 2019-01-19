@@ -2,9 +2,9 @@
     "name": "SoCheapskate: E-Commerce Comparison Buddy!",
     "version": "1.0",
     "description": "Search and compare prices from popular E-Commerce sites!",
-    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "permissions": ["activeTab", "declarativeContent", "storage", "contextMenus"],
     "background": {
-      "scripts": ["background.js"],
+      "scripts": ["background.js", "contextMenus.js"],
       "persistent": false
     },
     "page_action": {

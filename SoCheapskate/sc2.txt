@@ -1,0 +1,20 @@
+function pageFunction(context) {
+    // called on every page the crawler visits, use it to extract data from it
+    var $ = context.jQuery;
+    var results = [];
+    $("#search_result_item_list tr").each(function(){
+        var result = {
+            product_name: $(this).find("td.td_item .sbj a").text(),
+            price: $(this).find("td.td_prc strong").text(),
+            rating: $(this).find("span.rate_v").attr("title"),
+            link: $(this).find("td.td_item a").attr("href"), 
+            pic: $(this).find("td.td_thmb img").attr("src")
+        };
+        results.push(result);
+    });
+    if(results.length > 0)
+    {
+        return results;
+    }
+    return "NOT FOUND";
+}

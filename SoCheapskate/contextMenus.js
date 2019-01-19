@@ -12,4 +12,4 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         let url = "popup.html?selection="+ info.selectionText;
         chrome.tabs.create({url:url, index: tab.index +1});
     }
-}
+});

@@ -967,7 +967,7 @@ li.sale-noti > a {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  min-height: 80px;
+  min-height: 40px;
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;

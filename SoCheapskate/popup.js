@@ -40,15 +40,15 @@ var urlParams;
 })();
 console.log(urlParams);
 
-$(".selection-1").select2({
+/* $('.selection-1').select2({
     minimumResultsForSearch: 20,
     dropdownParent: $('#dropDownSelect1')
 });
 
-$(".selection-2").select2({
+$('.selection-2').select2({
     minimumResultsForSearch: 20,
     dropdownParent: $('#dropDownSelect2')
-});
+}); */
 
 $('.block2-btn-addcart').each(function(){
     var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
@@ -111,6 +111,7 @@ function qoo10NewRequest(term) {
                     type: "GET",
                     url: "https://api.apify.com/v1/hNNQbYhnwafECWc8f/crawlers/CwNxxSNdBYw7NWLjb/lastExec?token=rWLaYmvZeK55uatRrZib4xbZs",
                     success: function (data) {
+                        console.log(data['status']);
                         if (data['status'] == "SUCCEEDED")
                             break;
                     },

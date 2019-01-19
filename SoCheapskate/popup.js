@@ -1,15 +1,14 @@
-  let changeColor = document.getElementById('changeColor');
+console.log("hello");
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
 
-  chrome.storage.sync.get('color', function(data) {
-    changeColor.style.backgroundColor = data.color;
-    changeColor.setAttribute('value', data.color);
-  });
-
-  changeColor.onclick = function(element) {
-    let color = element.target.value;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.executeScript(
-          tabs[0].id,
-          {code: 'document.body.style.backgroundColor = "' + color + '";'});
-    });
-  };
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+console.log(urlParams);

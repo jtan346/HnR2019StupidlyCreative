@@ -79,40 +79,39 @@ function shopeeNewRequest(term) {
                         console.log(response4);
                         if(response4.pageFunctionResult === undefined){
                             has_result = false;
-                            console.log("No page func");
+                            divBody = "<P>No Results Found!</P>";
                         }
-                        else
-                        {
+                        else {
                             has_result = true;
                             result = response4.pageFunctionResult;
                             console.log("Crawler Complete");
-                        }
-                        var divBody = '';
-                        for(var i =0; i<5; i++) {
-                            console.log("This "+result[i]);
-                            divBody += '<div class="col-sm-12 col-md-12 col-lg-12 p-b-50">\n' +
-                                '\t\t\t\t\t\t\t\t  <!-- Block2 -->\n' +
-                                '\t\t\t\t\t\t\t\t  <div class="block2">\n' +
-                                '\t\t\t\t\t\t\t\t\t<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">\n' +
-                                '\t\t\t\t\t\t\t\t\t  <img src="'+result[i]['pic']+'" alt="IMG-PRODUCT">\n' +
-                                '\t\t\t\t\t\t\t\t\t  \n' +
-                                '\t\t\t\t\t\t\t\t\t  <div class="block2-overlay trans-0-4">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>\n' +
-                                '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>\n' +
-                                '\t\t\t\t\t\t\t\t\t\t</a>\n' +
-                                '\t\t\t\t\t\t\t\t\t  </div>\n' +
-                                '\t\t\t\t\t\t\t\t\t</div>\n' +
-                                '\t\t\t\t\t\t\t\t\t<div class="block2-txt p-t-20">\n' +
-                                '\t\t\t\t\t\t\t\t\t  <a href="'+result[i]['link']+'" class="block2-name dis-block s-text3 p-b-5">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t' + result[i]['product_name'] +
-                                '\t\t\t\t\t\t\t\t\t  </a>\n' +
-                                '\t\t\t\t\t\t\t\t\t  <span class="block2-price m-text6 p-r-5">\'\n' +
-                                '\t\t\t\t\t\t\t\t\t\t\n' + result[i]['price'] +
-                                '\t\t\t\t\t\t\t\t\t  </span>\n' +
-                                '\t\t\t\t\t\t\t\t\t</div>\n' +
-                                '\t\t\t\t\t\t\t\t  </div>\n' +
-                                '\t\t\t\t\t\t\t\t</div>';
+                            var divBody = '';
+                            for (var i = 0; i < 5; i++) {
+                                console.log("This " + result[i]);
+                                divBody += '<div class="col-sm-12 col-md-12 col-lg-12 p-b-50">\n' +
+                                    '\t\t\t\t\t\t\t\t  <!-- Block2 -->\n' +
+                                    '\t\t\t\t\t\t\t\t  <div class="block2">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <img src="' + result[i]['pic'] + '" alt="IMG-PRODUCT">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  \n' +
+                                    '\t\t\t\t\t\t\t\t\t  <div class="block2-overlay trans-0-4">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t</a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t  </div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="block2-txt p-t-20">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <a href="' + result[i]['link'] + '" class="block2-name dis-block s-text3 p-b-5">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t' + result[i]['product_name'] +
+                                    '\t\t\t\t\t\t\t\t\t  </a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <span class="block2-price m-text6 p-r-5">\'\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\n' + result[i]['price'] +
+                                    '\t\t\t\t\t\t\t\t\t  </span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t  </div>\n' +
+                                    '\t\t\t\t\t\t\t\t</div>';
+                            }
                         }
                         postMessage(divBody);
                     }

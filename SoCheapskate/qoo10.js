@@ -76,6 +76,7 @@ function qoo10NewRequest(term) {
                         if(response4.pageFunctionResult === undefined){
                             has_result = false;
                             console.log("No page func");
+                            divBody = "<P>No Results Found!</P>";
                         }
                         else
                         {
@@ -110,8 +111,8 @@ function qoo10NewRequest(term) {
                                     '\t\t\t\t\t\t\t\t  </div>\n' +
                                     '\t\t\t\t\t\t\t\t</div>';
                             }
-                            postMessage(divBody);
                         }
+                        postMessage(divBody);
                     }
                 };
                 //if(has_result)

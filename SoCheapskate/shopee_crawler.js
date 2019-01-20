@@ -14,35 +14,35 @@ function pageFunction(context) {
         // refresh page screenshot and HTML for debugging
         context.saveSnapshot();            
         
-        if($(".col-xs-2-4.shopee-search-item-result__item").length > 40)
-        {
+
+
+        // timeout after 10 seconds
+        if( Date.now() - startedAt > 30000 ) {
             console.log("Exiting");
             
             var results = [];
             $(".col-xs-2-4.shopee-search-item-result__item").each(function(){
+                
                 if($(this).find("._1NoI8_.KQFWxC").text() !== "")
                 {
+                    var pic_link = $(this).find("._1T9dHf.animated-lazy-image__image--ready").css("background-image").replace("url(","").replace(")","");
                     var result = {
                         product_name: $(this).find("._1NoI8_.KQFWxC").text(),
                         price: $(this).find(".tyA3vN._3eZ5Vz._3RuPcU").text(),
                         rating: $(this).find(".shopee-rating-stars__lit[style='width: 100%']").length,
-                        link: $(this).find("a").attr("href") 
-                    };                
-                    results.push(result);
+                        link: "https://shopee.sg" + $(this).find("a").attr("href"),
+                        pic: pic_link
+                    };
+                    console.log(result);
                 }
             });
             if(results.length > 0)
             {
                 context.finish(results);
+                return;
             }
             context.finish("NOT FOUND");
             return;      
-        }
-        
-        // timeout after 10 seconds
-        if( Date.now() - startedAt > 30000 ) {
-            context.finish("Timed out before #my_element was loaded " + Date.now() + " " + startedAt);
-            return;
         }
 
         // if my element still hasn't been loaded, wait a little more
@@ -53,28 +53,6 @@ function pageFunction(context) {
         }
 
         // save a result
-
-        
-        context.finish(function(){
-            var results = [];
-            $(".col-xs-2-4.shopee-search-item-result__item").each(function(){
-                if($(this).find("._1NoI8_.KQFWxC").text() !== "")
-                {
-                    var result = {
-                        product_name: $(this).find("._1NoI8_.KQFWxC").text(),
-                        price: $(this).find(".tyA3vN._3eZ5Vz._3RuPcU").text(),
-                        rating: $(this).find(".shopee-rating-stars__lit[style='width: 100%']").length,
-                        link: $(this).find("a").attr("href") 
-                    };
-                    results.push(result);
-                }
-            });
-            if(results.length > 0)
-            {
-                return results;
-            }
-            return "NOT FOUND";
-        });
 
         
     }

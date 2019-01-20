@@ -9,24 +9,36 @@ function pageFunction(context) {
     
     var extractData = function() {
         setExtract = false;
-        console.log("Found: " + $(".col-xs-2-4.shopee-search-item-result__item").length + " with time:  " + (Date.now() - startedAt));
-        
+
         // refresh page screenshot and HTML for debugging
         context.saveSnapshot();            
         
-        if($(".col-xs-2-4.shopee-search-item-result__item").length > 40)
+        if($("#search_result_item_list tr").length > 20)
         {
             console.log("Exiting");
             
             var results = [];
-            $(".col-xs-2-4.shopee-search-item-result__item").each(function(){
+            $("#search_result_item_list tr").each(function(){
+                var img_content_code = $(this).find("td.td_tmb a").attr("img_contents_num");
+                var pic_link;
+                if(img_content_code)
+                {
+                    var part1 = img_content_code.substring(7,10);
+                    var part2 = img_content_code.substring(3,7);
+                    pic_link = "https://gd.image-gmkt.com/li/" + part1 + "/" + part2 + "/" + 874172320 + ".g_100-w-st_g.jpg"
+                }
+                else
+                {
+                    var pic_link = $(this).find("td.td_tmb img").attr("src");
+                }
                 if($(this).find("._1NoI8_.KQFWxC").text() !== "")
                 {
                     var result = {
-                        product_name: $(this).find("._1NoI8_.KQFWxC").text(),
-                        price: $(this).find(".tyA3vN._3eZ5Vz._3RuPcU").text(),
-                        rating: $(this).find(".shopee-rating-stars__lit[style='width: 100%']").length,
-                        link: $(this).find("a").attr("href") 
+                        product_name: $(this).find("td.td_item .sbj a").text(),
+                        price: $(this).find("td.td_prc strong").text(),
+                        rating: $(this).find("span.rate_v").length,
+                        link: $(this).find("td.td_thmb img").attr("href") 
+                        pic : pic_link
                     };                
                     results.push(result);
                 }
@@ -57,15 +69,27 @@ function pageFunction(context) {
         
         context.finish(function(){
             var results = [];
-            $(".col-xs-2-4.shopee-search-item-result__item").each(function(){
+            $("#search_result_item_list tr").each(function(){
+            var pic_link;
+            if(img_content_code)
+                {
+                    var part1 = img_content_code.substring(7,10);
+                    var part2 = img_content_code.substring(3,7);
+                    pic_link = "https://gd.image-gmkt.com/li/" + part1 + "/" + part2 + "/" + 874172320 + ".g_100-w-st_g.jpg"
+                }
+                else
+                {
+                    var pic_link = $(this).find("td.td_tmb img").attr("src");
+                }
                 if($(this).find("._1NoI8_.KQFWxC").text() !== "")
                 {
                     var result = {
-                        product_name: $(this).find("._1NoI8_.KQFWxC").text(),
-                        price: $(this).find(".tyA3vN._3eZ5Vz._3RuPcU").text(),
-                        rating: $(this).find(".shopee-rating-stars__lit[style='width: 100%']").length,
-                        link: $(this).find("a").attr("href") 
-                    };
+                        product_name: $(this).find("td.td_item .sbj a").text(),
+                        price: $(this).find("td.td_prc strong").text(),
+                        rating: $(this).find("span.rate_v").length,
+                        link: $(this).find("td.td_thmb img").attr("href") 
+                        pic : pic_link
+                    };                
                     results.push(result);
                 }
             });

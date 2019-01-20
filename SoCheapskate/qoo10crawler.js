@@ -69,12 +69,12 @@ function pageFunction(context) {
         context.finish(function(){
             var results = [];
             $("#search_result_item_list tr").each(function(){
-            var pic_link;
-            if(img_content_code)
+                var pic_link;
+                if(img_content_code)
                 {
                     var part1 = img_content_code.substring(7,10);
                     var part2 = img_content_code.substring(3,7);
-                    pic_link = "https://gd.image-gmkt.com/li/" + part1 + "/" + part2 + "/" + 874172320 + ".g_100-w-st_g.jpg"
+                    pic_link = "https://gd.image-gmkt.com/li/" + part1 + "/" + part2 + "/" + img_content_code + ".g_100-w-st_g.jpg"
                 }
                 else
                 {

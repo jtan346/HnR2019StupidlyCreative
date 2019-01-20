@@ -68,8 +68,23 @@ $('.block2-btn-addwishlist').each(function(){
 console.log("SHOOTING");
 var urlParams = new URLSearchParams(window.location.search);
 var term = urlParams.get("selection");
+console.log(term);
+var shopee = new Worker('shopee.js');
+var qoo10 = new Worker('qoo10.js');
+shopee.postMessage(term);
+qoo10.postMessage(term);
 
-shopeeNewRequest(term)
+shopee.onmessage = function(e) {
+  var div = document.getElementById("shopeeProducts");
+  div.innerHTML = e.data;
+  console.log('Message received from worker');
+}
+
+qoo10.onmessage = function(e) {
+  var div2 = document.getElementById("qoo10Products");
+  div2.innerHTML = e.data;
+  console.log('Message received from worker');
+}
 
 function qoo10NewRequest(term) {
 
@@ -199,6 +214,8 @@ function qoo10NewRequest(term) {
     };
     request2.send();
 }
+
+
 
 function shopeeNewRequest(term) {
     console.log("shopee");

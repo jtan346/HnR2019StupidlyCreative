@@ -1,13 +1,15 @@
 onmessage = (evt) => {
-    postMessage("Worker received data: " + JSON.stringify(evt.data));
-    qoo10NewRequest(JSON.stringify(evt.data));
+    var data = evt.data;
+    console.log("Worker received data: " + data);
+    shopeeNewRequest(data);
 };
+
 function shopeeNewRequest(term) {
     console.log("shopee");
     //Update Crawler
     console.log("Update Crawler with search term");
     var request = new XMLHttpRequest();
-    request.open('PUT', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/NfrHyL5pAsyFf5nfQ?token=iwahFopnxQCmS2T8uhzq7p9KA');
+    request.open('PUT', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/NfrHyL5pAsyFf5nfQ?token=iwahFopnxQCmS2T8uhzq7p9KA', false);
 
     request.setRequestHeader('Content-Type', 'application/json');
 
@@ -32,7 +34,7 @@ function shopeeNewRequest(term) {
     var request2 = new XMLHttpRequest();
 
     console.log("Start crawler search");
-    request2.open('POST', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/NfrHyL5pAsyFf5nfQ/execute?token=2L3yb26jHw7M9B7bu5Dwa2rCM');
+    request2.open('POST', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/NfrHyL5pAsyFf5nfQ/execute?token=2L3yb26jHw7M9B7bu5Dwa2rCM', false);
     request2.onreadystatechange = function () {
         console.log(this.readyState);
         if (this.readyState === 4) {
@@ -112,8 +114,7 @@ function shopeeNewRequest(term) {
                                 '\t\t\t\t\t\t\t\t  </div>\n' +
                                 '\t\t\t\t\t\t\t\t</div>';
                         }
-                        var div = document.getElementById("shopeeProducts");
-                        div.innerHTML = divBody;
+                        postMessage(divBody);
                     }
                 };
                 //if(has_result)
@@ -130,3 +131,13 @@ function shopeeNewRequest(term) {
     };
     request2.send();
 }
+
+//delay function
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+        end = new Date().getTime();
+    }
+}
+

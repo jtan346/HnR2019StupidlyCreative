@@ -1,6 +1,8 @@
 onmessage = (evt) => {
-    postMessage("Worker received data: " + JSON.stringify(evt.data));
-    qoo10NewRequest(JSON.stringify(evt.data));
+    console.log(evt);
+    var data = evt.data;
+    console.log("qoo10Worker received data: " + data);
+    qoo10NewRequest(data);
 };
 
 function qoo10NewRequest(term) {
@@ -8,7 +10,7 @@ function qoo10NewRequest(term) {
     //Update Crawler
     console.log("Update Crawler with search term");
     var request = new XMLHttpRequest();
-    request.open('PUT', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6?token=iwahFopnxQCmS2T8uhzq7p9KA');
+    request.open('PUT', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6?token=iwahFopnxQCmS2T8uhzq7p9KA',false);
 
     request.setRequestHeader('Content-Type', 'application/json');
 
@@ -16,6 +18,9 @@ function qoo10NewRequest(term) {
         if (this.readyState === 4) {
             console.log('Update Status:', this.status);
         }
+        console.log('Status:', this.status);
+        console.log('Headers:', this.getAllResponseHeaders());
+        console.log('Body:', this.responseText);
     };
 
     var body = {
@@ -27,19 +32,19 @@ function qoo10NewRequest(term) {
         ]
     };
     request.send(JSON.stringify(body));
-
+    console.log("HELPPP LA");
 
     //Start Execution
     var request2 = new XMLHttpRequest();
 
     console.log("Start crawler search");
-    request2.open('POST', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6/execute?token=KcTduuesmZXxCdDY3jtT7ZEB6');
+    request2.open('POST', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6/execute?token=KcTduuesmZXxCdDY3jtT7ZEB6', false);
     request2.onreadystatechange = function () {
         console.log(this.readyState);
         if (this.readyState === 4) {
             console.log('Start crawler status:', this.status);
             console.log("Check Execution Status");
-            
+            4
             var request3 = new XMLHttpRequest();
             var not_finished = true;
             var response;
@@ -52,14 +57,16 @@ function qoo10NewRequest(term) {
                         console.log("Check Execution Status: " + this.status);
                         response = JSON.parse(this.responseText);
                         console.log(response);
+                        wait(3000);
                     };
                     if(response.status == "SUCCEEDED")
                     {
                         not_finished = false;
+                        console.log(this);
                     }
                 }
                 request3.send();
-                wait(2000);
+                
             }
 
             
@@ -113,8 +120,7 @@ function qoo10NewRequest(term) {
                                 '\t\t\t\t\t\t\t\t  </div>\n' +
                                 '\t\t\t\t\t\t\t\t</div>';
                         }
-                        var div = document.getElementById("qoo10Products");
-                        div.innerHTML = divBody;
+                        postMessage(divBody);
                     }
                 };
                 //if(has_result)
@@ -130,4 +136,12 @@ function qoo10NewRequest(term) {
         }
     };
     request2.send();
+}
+//delay function
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+        end = new Date().getTime();
+    }
 }

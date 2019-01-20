@@ -65,7 +65,6 @@ function pageFunction(context) {
         }
 
         // save a result
-
         
         context.finish(function(){
             var results = [];

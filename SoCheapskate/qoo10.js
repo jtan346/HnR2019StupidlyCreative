@@ -18,9 +18,6 @@ function qoo10NewRequest(term) {
         if (this.readyState === 4) {
             console.log('Update Status:', this.status);
         }
-        console.log('Status:', this.status);
-        console.log('Headers:', this.getAllResponseHeaders());
-        console.log('Body:', this.responseText);
     };
 
     var body = {
@@ -32,7 +29,6 @@ function qoo10NewRequest(term) {
         ]
     };
     request.send(JSON.stringify(body));
-    console.log("HELPPP LA");
 
     //Start Execution
     var request2 = new XMLHttpRequest();
@@ -40,7 +36,6 @@ function qoo10NewRequest(term) {
     console.log("Start crawler search");
     request2.open('POST', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6/execute?token=KcTduuesmZXxCdDY3jtT7ZEB6', false);
     request2.onreadystatechange = function () {
-        console.log(this.readyState);
         if (this.readyState === 4) {
             console.log('Start crawler status:', this.status);
             console.log("Check Execution Status");
@@ -52,17 +47,14 @@ function qoo10NewRequest(term) {
             {
                 request3.open('GET', 'https://api.apify.com/v1/mx3s7bQeyNdaayHJ5/crawlers/PbYnSfEiHWBi8GKe6/lastExec?token=AHkv4ng7bikCLR3wrMtD4Xbd9',false);
                 request3.onreadystatechange = function () {    
-                    console.log(this.readyState);
                     if (this.readyState === 4) {
                         console.log("Check Execution Status: " + this.status);
                         response = JSON.parse(this.responseText);
-                        console.log(response);
                         wait(3000);
                     };
                     if(response.status == "SUCCEEDED")
                     {
                         not_finished = false;
-                        console.log(this);
                     }
                 }
                 request3.send();
@@ -80,9 +72,7 @@ function qoo10NewRequest(term) {
                 request4.onreadystatechange = function () {
                     console.log(this.readyState);
                     if (this.readyState === 4) {
-                        console.log(this);
                         var response4 = JSON.parse(this.responseText)[0];
-                        console.log(response4);
                         if(response4.pageFunctionResult === undefined){
                             has_result = false;
                             console.log("No page func");
@@ -92,35 +82,36 @@ function qoo10NewRequest(term) {
                             has_result = true;
                             result = response4.pageFunctionResult;
                             console.log("Crawler Complete");
+                        
+                            var divBody = '';
+                            for(var i =0; i<5; i++) {
+                                console.log("This "+result[i]);
+                                divBody += '<div class="col-sm-12 col-md-12 col-lg-12 p-b-50">\n' +
+                                    '\t\t\t\t\t\t\t\t  <!-- Block2 -->\n' +
+                                    '\t\t\t\t\t\t\t\t  <div class="block2">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <img src="'+result[i]['pic']+'" alt="IMG-PRODUCT">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  \n' +
+                                    '\t\t\t\t\t\t\t\t\t  <div class="block2-overlay trans-0-4">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t</a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t  </div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="block2-txt p-t-20">\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <a href="'+result[i]['link']+'" class="block2-name dis-block s-text3 p-b-5">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t' + result[i]['product_name'] +
+                                    '\t\t\t\t\t\t\t\t\t  </a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t  <span class="block2-price m-text6 p-r-5">\'\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\n' + result[i]['price'] +
+                                    '\t\t\t\t\t\t\t\t\t  </span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t  </div>\n' +
+                                    '\t\t\t\t\t\t\t\t</div>';
+                            }
+                            postMessage(divBody);
                         }
-                        var divBody = '';
-                        for(var i =0; i<5; i++) {
-                            console.log("This "+result[i]);
-                            divBody += '<div class="col-sm-12 col-md-12 col-lg-12 p-b-50">\n' +
-                                '\t\t\t\t\t\t\t\t  <!-- Block2 -->\n' +
-                                '\t\t\t\t\t\t\t\t  <div class="block2">\n' +
-                                '\t\t\t\t\t\t\t\t\t<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">\n' +
-                                '\t\t\t\t\t\t\t\t\t  <img src="'+result[i]['pic']+'" alt="IMG-PRODUCT">\n' +
-                                '\t\t\t\t\t\t\t\t\t  \n' +
-                                '\t\t\t\t\t\t\t\t\t  <div class="block2-overlay trans-0-4">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>\n' +
-                                '\t\t\t\t\t\t\t\t\t\t  <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>\n' +
-                                '\t\t\t\t\t\t\t\t\t\t</a>\n' +
-                                '\t\t\t\t\t\t\t\t\t  </div>\n' +
-                                '\t\t\t\t\t\t\t\t\t</div>\n' +
-                                '\t\t\t\t\t\t\t\t\t<div class="block2-txt p-t-20">\n' +
-                                '\t\t\t\t\t\t\t\t\t  <a href="'+result[i]['link']+'" class="block2-name dis-block s-text3 p-b-5">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t' + result[i]['product_name'] +
-                                '\t\t\t\t\t\t\t\t\t  </a>\n' +
-                                '\t\t\t\t\t\t\t\t\t  <span class="block2-price m-text6 p-r-5">\'\n' +
-                                '\t\t\t\t\t\t\t\t\t\t\n' + result[i]['price'] +
-                                '\t\t\t\t\t\t\t\t\t  </span>\n' +
-                                '\t\t\t\t\t\t\t\t\t</div>\n' +
-                                '\t\t\t\t\t\t\t\t  </div>\n' +
-                                '\t\t\t\t\t\t\t\t</div>';
-                        }
-                        postMessage(divBody);
                     }
                 };
                 //if(has_result)
